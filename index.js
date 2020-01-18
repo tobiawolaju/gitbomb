@@ -1,29 +1,26 @@
 import jsonfile from "jsonfile";
 import moment from "moment";
 import simpleGit from "simple-git";
-import random from "random";
 
 const path = "./data.json";
+const git = simpleGit();
 
-const makeCommits = async (n) => {
-  if (n === 0) return simpleGit().push();
+async function commitEveryDay(startYear, endYear, commitsPerDay = 1) {
+  const start = moment(`${startYear}-01-01`);
+  const end = moment(`${endYear}-12-31`);
 
-  // pick a random year between 2020–2025
-  const year = random.int(2020, 2025);
-  // pick a random month/day
-  const month = random.int(0, 11);
-  const day = random.int(1, 28); // keep safe for february
+  for (let d = start.clone(); d.isSameOrBefore(end); d.add(1, "day")) {
+    for (let i = 0; i < commitsPerDay; i++) {
+      const date = d.format();
+      const data = { date };
+      jsonfile.writeFileSync(path, data);
+      await git.add([path]).commit(date, { "--date": date });
+      console.log("commit", date);
+    }
+  }
 
-  const date = moment({ year, month, day }).format();
+  await git.push();
+}
 
-  const data = { date };
-  console.log(date);
-
-  jsonfile.writeFile(path, data, () => {
-    simpleGit()
-      .add([path])
-      .commit(date, { "--date": date }, makeCommits.bind(this, --n));
-  });
-};
-
-makeCommits(200); // adjust count
+// fill every day from 2020 → 2025 with 1 commit each
+commitEveryDay(2020, 2025, 1);
