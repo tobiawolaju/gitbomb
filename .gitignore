@@ -1,0 +1,9 @@
+# dependencies
+/node_modules
+
+# data file spammed by the script
+/data.json
+
+# misc
+.DS_Store
+Thumbs.db
