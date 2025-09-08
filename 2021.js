@@ -9,7 +9,7 @@ function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-async function commitEveryDay(startYear, endYear, minCommits = 2, maxCommits = 10) {
+async function commitEveryDay(startYear, endYear, minCommits = 1, maxCommits = 10) {
   const start = moment(`${startYear}-01-01`);
   const end = moment(`${endYear}-12-31`);
 
@@ -29,4 +29,4 @@ async function commitEveryDay(startYear, endYear, minCommits = 2, maxCommits = 1
 }
 
 // run from 2020 → 2025 with 1–10 commits per day
-commitEveryDay(2024, 2025, 1, 10);
+commitEveryDay(2020, 2021, 1, 10);
