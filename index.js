@@ -29,4 +29,4 @@ async function commitEveryDay(startYear, endYear, minCommits = 1, maxCommits = 1
 }
 
 // run from 2020 → 2025 with 1–10 commits per day
-commitEveryDay(2020, 2025, 1, 10);
+commitEveryDay(2024, 2025, 1, 10);
